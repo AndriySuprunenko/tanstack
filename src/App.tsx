@@ -1,21 +1,7 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import Todo from "./components/Todo";
 
 function App() {
-  const [todos, setTodos] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/todos")
-      .then((response) => {
-        setTodos(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching todos:", error);
-      });
-  }, []);
-
-  return <>{JSON.stringify(todos)}</>;
+  return <Todo />;
 }
 
 export default App;
