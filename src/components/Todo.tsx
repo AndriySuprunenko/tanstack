@@ -1,21 +1,21 @@
 import { useTodosIds } from "../services/queries";
 
 export default function Todo() {
-  const todosIdsQuery = useTodosIds();
+  const { data, isPending, isError } = useTodosIds();
 
-  if (todosIdsQuery.isPending) {
+  if (isPending) {
     return <div>Loading...</div>;
   }
 
-  if (todosIdsQuery.isError) {
-    return <div>Error: {todosIdsQuery.error.message}</div>;
+  if (isError) {
+    return <div>Error loading todos</div>;
   }
 
   return (
     <>
       <h1>Todo List</h1>
       <ul>
-        {todosIdsQuery.data.map((todoId) => (
+        {data.map((todoId) => (
           <li key={todoId}>{todoId}</li>
         ))}
       </ul>
