@@ -20,7 +20,11 @@ export default function Todo() {
       <form onSubmit={handleSubmit(handleCreateTodo)}>
         <input {...register("title")} placeholder="Title" />
         <input {...register("description")} placeholder="Description" />
-        <button type="submit">Create Todo</button>
+        <input
+          type="submit"
+          disabled={createTodoMutation.isPending}
+          value={createTodoMutation.isPending ? "Creating..." : "Create todo"}
+        />
       </form>
       <ul>
         {todosQueries.map(({ data }) => (
