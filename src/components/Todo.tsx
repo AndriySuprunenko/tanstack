@@ -1,5 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useCreateTodo, useUpdateTodo } from "../services/mutations";
+import {
+  useCreateTodo,
+  useDeleteTodo,
+  useUpdateTodo,
+} from "../services/mutations";
 import { useTodos, useTodosIds } from "../services/queries";
 import { Todo as TodoInterface } from "../types/todo";
 
@@ -11,6 +15,7 @@ export default function Todo() {
 
   const createTodoMutation = useCreateTodo();
   const updateTodoMutation = useUpdateTodo();
+  const deleteTodoMutation = useDeleteTodo();
 
   const handleCreateTodo: SubmitHandler<TodoInterface> = (data) => {
     createTodoMutation.mutate(data);
@@ -20,6 +25,10 @@ export default function Todo() {
     if (data) {
       updateTodoMutation.mutate({ ...data, checked: true });
     }
+  };
+
+  const handleDeleteTodo = (id: number) => {
+    deleteTodoMutation.mutate(id);
   };
 
   return (
@@ -47,6 +56,14 @@ export default function Todo() {
               {updateTodoMutation.isPending ? "Updating..." : ""}
               {data?.checked ? "Done" : "Mark as done"}
             </button>
+            {data && data.id && (
+              <button
+                onClick={() => handleDeleteTodo(data.id!)}
+                disabled={deleteTodoMutation.isPending}
+              >
+                {deleteTodoMutation.isPending ? "Deleting..." : "Delete"}
+              </button>
+            )}
           </li>
         ))}
       </ul>
